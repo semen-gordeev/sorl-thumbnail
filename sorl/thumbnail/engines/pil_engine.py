@@ -79,6 +79,7 @@ class Engine(EngineBase):
             image.save(buf, **params)
         except IOError:
             params.pop('optimize')
+            params.pop('progressive')
             ImageFile.MAXBLOCK = image.size[0] * image.size[1]
             image.save(buf, **params)
         raw_data = buf.getvalue()
