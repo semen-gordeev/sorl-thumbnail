@@ -29,7 +29,8 @@ class ThumbnailBackend(object):
         ('orientation', 'THUMBNAIL_ORIENTATION'),
     )
 
-    def get_thumbnail(self, file_, geometry_string, **options):
+    def get_thumbnail(self, file_, geometry_string, force_create=True,
+                      **options):
         """
         Returns thumbnail as an ImageFile instance for file with geometry and
         options given. First it will try to get it from the key value store,
@@ -57,6 +58,10 @@ class ThumbnailBackend(object):
             # We might as well set the size since we have the image in memory
             size = default.engine.get_image_size(source_image)
             source.set_size(size)
+
+            if not force_create:
+                return source
+
             self._create_thumbnail(source_image, geometry_string, options,
                                    thumbnail)
         # If the thumbnail exists we don't create it, the other option is
