@@ -12,6 +12,7 @@ class EngineBase(object):
         """
         Processing conductor, returns the thumbnail as an image engine instance
         """
+        image.LOAD_TRUNCATED_IMAGES = True
         image = self.orientation(image, geometry, options)
         image = self.colorspace(image, geometry, options)
         image = self.scale(image, geometry, options)
