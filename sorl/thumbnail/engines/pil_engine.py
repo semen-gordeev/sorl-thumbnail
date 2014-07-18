@@ -67,7 +67,7 @@ class Engine(EngineBase):
     def _orientation(self, image):
         try:
             exif = image._getexif()
-        except (AttributeError, IOError, KeyError, IndexError):
+        except (AttributeError, KeyError, IndexError, IOError, SyntaxError):
             exif = None
 
         if exif:
@@ -240,3 +240,4 @@ class Engine(EngineBase):
         hist_size = sum(hist)
         hist = [float(h) / hist_size for h in hist]
         return -sum([p * math.log(p, 2) for p in hist if p != 0])
+
