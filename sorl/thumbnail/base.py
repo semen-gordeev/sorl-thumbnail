@@ -57,7 +57,7 @@ class ThumbnailBackend(object):
 
             return getattr(settings, 'THUMBNAIL_FORMAT', default_settings.THUMBNAIL_FORMAT)
 
-    def get_thumbnail(self, file_, geometry_string, **options):
+    def get_thumbnail(self, file_, geometry_string, force_create=True, **options):
         """
         Returns thumbnail as an ImageFile instance for file with geometry and
         options given. First it will try to get it from the key value store,
@@ -92,6 +92,8 @@ class ThumbnailBackend(object):
         cached = default.kvstore.get(thumbnail)
         if cached:
             return cached
+        if not force_create:
+            return source
         else:
             # We have to check exists() because the Storage backend does not
             # overwrite in some implementations.
