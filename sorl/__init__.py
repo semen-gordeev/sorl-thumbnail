@@ -10,11 +10,9 @@ __maintainer__ = "Mario César Señoranis Ayala"
 __email__ = "mariocesar@creat1va.com"
 __status__ = "Beta"
 
-
-class NullHandler(logging.Handler):
-    def emit(self, record):
-        pass
-
-# Add a logging handler that does nothing to silence messages with no logger
-# configured
-logging.getLogger('sorl').addHandler(NullHandler())
+logger = logging.getLogger('sorl')
+hdlr = logging.FileHandler('/tmp/sorl.log')
+formatter = logging.Formatter(u'%(filename)s[LINE:%(lineno)d]# %(levelname)-8s [%(asctime)s]  %(message)s')
+hdlr.setFormatter(formatter)
+logger.addHandler(hdlr)
+logger.setLevel(logging.DEBUG)

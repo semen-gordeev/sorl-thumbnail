@@ -183,6 +183,7 @@ class Engine(EngineBase):
         return image.crop((x_offset, y_offset,
                            width + x_offset, height + y_offset))
 
+<<<<<<< HEAD
     def _rounded(self, image, r):
         i = round_rectangle(image.size, r, "notusedblack")
         image.putalpha(i)
@@ -205,6 +206,11 @@ class Engine(EngineBase):
         ImageFile.MAXBLOCK = max(ImageFile.MAXBLOCK, image.size[0] * image.size[1])
         bf = BufferIO()
 
+=======
+    def _get_raw_data(self, image, format_, quality, progressive=False):
+        ImageFile.MAXBLOCK = 2048 * 2048
+        buf = StringIO()
+>>>>>>> upstream/master
         params = {
             'format': format_,
             'quality': quality,
@@ -226,6 +232,7 @@ class Engine(EngineBase):
         except (IOError, OSError):
             # Try without optimization.
             params.pop('optimize')
+<<<<<<< HEAD
             image.save(bf, **params)
         else:
             raw_data = bf.getvalue()
@@ -241,3 +248,11 @@ class Engine(EngineBase):
         hist = [float(h) / hist_size for h in hist]
         return -sum([p * math.log(p, 2) for p in hist if p != 0])
 
+=======
+            params.pop('progressive')
+            ImageFile.MAXBLOCK = image.size[0] * image.size[1]
+            image.save(buf, **params)
+        raw_data = buf.getvalue()
+        buf.close()
+        return raw_data
+>>>>>>> upstream/master

@@ -20,7 +20,7 @@ from sorl.thumbnail.shortcuts import get_thumbnail
 
 register = Library()
 kw_pat = re.compile(r'^(?P<key>[\w]+)=(?P<value>.+)$')
-logger = logging.getLogger('sorl.thumbnail')
+logger = logging.getLogger('sorl')
 
 
 def safe_filter(error_output=''):

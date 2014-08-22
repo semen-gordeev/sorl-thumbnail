@@ -7,7 +7,7 @@ from sorl.thumbnail.fields import ImageField
 from sorl.thumbnail.shortcuts import get_thumbnail
 
 
-logger = logging.getLogger(__name__)
+logger = logging.getLogger('sorl')
 
 
 class AdminImageWidget(forms.ClearableFileInput):

@@ -17,9 +17,13 @@ class EngineBase(object):
         """
         Processing conductor, returns the thumbnail as an image engine instance
         """
+<<<<<<< HEAD
 
         image.LOAD_TRUNCATED_IMAGES = True
         image = self.cropbox(image, geometry, options)
+=======
+        image.LOAD_TRUNCATED_IMAGES = True
+>>>>>>> upstream/master
         image = self.orientation(image, geometry, options)
         image = self.colorspace(image, geometry, options)
         image = self.remove_border(image, options)

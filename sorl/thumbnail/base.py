@@ -10,7 +10,7 @@ from sorl.thumbnail import default
 from sorl.thumbnail.parsers import parse_geometry
 
 
-logger = logging.getLogger(__name__)
+logger = logging.getLogger('sorl')
 
 EXTENSIONS = {
     'JPEG': 'jpg',
@@ -42,6 +42,7 @@ class ThumbnailBackend(object):
         ('blur', 'THUMBNAIL_BLUR'),
     )
 
+<<<<<<< HEAD
     def file_extension(self, file_):
         return os.path.splitext(file_.name)[1].lower()
 
@@ -58,13 +59,17 @@ class ThumbnailBackend(object):
             return getattr(settings, 'THUMBNAIL_FORMAT', default_settings.THUMBNAIL_FORMAT)
 
     def get_thumbnail(self, file_, geometry_string, force_create=True, **options):
+=======
+    def get_thumbnail(self, file_, geometry_string, force_create=True,
+                      **options):
+>>>>>>> upstream/master
         """
         Returns thumbnail as an ImageFile instance for file with geometry and
         options given. First it will try to get it from the key value store,
         secondly it will create it.
         """
-        logger.debug(text_type('Getting thumbnail for file [%s] at [%s]'), file_,
-                     geometry_string)
+        logger.debug(text_type('Getting thumbnail for file [%s] at [%s], force_create=[%s]'), file_,
+                     geometry_string, force_create)
         if file_:
             source = ImageFile(file_)
         elif settings.THUMBNAIL_DUMMY:
@@ -91,10 +96,17 @@ class ThumbnailBackend(object):
         thumbnail = ImageFile(name, default.storage)
         cached = default.kvstore.get(thumbnail)
         if cached:
+            logger.debug(text_type('Getting thumbnail from cache'))
             return cached
         if not force_create:
+<<<<<<< HEAD
+            logger.debug(text_type('Getting source image'))
             return source
         else:
+=======
+            return source
+        if not thumbnail.exists():
+>>>>>>> upstream/master
             # We have to check exists() because the Storage backend does not
             # overwrite in some implementations.
             # so we make the assumption that if the thumbnail is not cached, it doesn't exist
@@ -120,6 +132,7 @@ class ThumbnailBackend(object):
                                        thumbnail)
                 self._create_alternative_resolutions(source_image, geometry_string,
                                                      options, thumbnail.name)
+                logger.debug(text_type('Create thumbnail for file [%s] at [%s]'), file_, geometry_string)
             finally:
                 default.engine.cleanup(source_image)
 
@@ -128,6 +141,7 @@ class ThumbnailBackend(object):
         # will just leave that out for now.
         default.kvstore.get_or_set(source)
         default.kvstore.set(thumbnail, source)
+        logger.debug(text_type('Add info to key-value store'))
         return thumbnail
 
     def delete(self, file_, delete_file=True):
